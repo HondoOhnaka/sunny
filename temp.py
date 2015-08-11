@@ -41,7 +41,7 @@ def main():
         print(temp_f)
         time.sleep(1)
 
-        if temp_f - last_temp > STEP_VALUE:
+        if temp_f - last_step > STEP_VALUE:
             last_step = temp_f
             tweet_temp(temp_f)
 
