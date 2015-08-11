@@ -21,9 +21,16 @@ TEMP_THRESHOLD = 149.0 # farenheit
 STEP_VALUE = 5.0
 
 #Twillio Information
-auth = os.environ.get('TWILIO_SID')
-token = os.environ.get('TWILIO_SECRET')
+TWILIO_SID = os.environ.get('TWILIO_SID')
+TWILIO_SECRET = os.environ.get('TWILIO_SECRET')
 to_phone = os.environ.get('TO_PHONE')
+
+try:
+    to_phone2 = os.environ.get('TO_PHONE')
+except ValueError:
+    to_phone2 = None
+
+
 from_phone = os.environ.get('FROM_PHONE')
 
 #Twitter Information
@@ -51,16 +58,21 @@ def main():
 
 
 def text_temp(temperature):
-    msg = 'Solar oven has reached {}\xb0 f'.format(temperature)
-    print "tweeting"
+    msg = u'Solar oven has reached {}\xb0 f'.format(temperature)
+    print "texting"
 
-    client = TwilioRestClient(auth,token)
+    print TWILIO_SID
+
+    client = TwilioRestClient(TWILIO_SID,TWILIO_SECRET)
     client.messages.create(to=to_phone, from_=from_phone, body=msg)
+    
+    if to_phone2 is not None:
+        client.messages.create(to=to_phone2, from_=from_phone, body=msg)
 
 
 def tweet_temp(temperature):
-    print "texting"
-    status_msg = "Current solar oven temperature = {} \xb0 f".format(temperature)
+    print "tweeting"
+    status_msg = u'Current solar oven temperature = {} \xb0 f'.format(temperature)
     api = Twython(consumer_key, consumer_secret, access_key, access_secret)
     api.update_status(status=status_msg)
 
