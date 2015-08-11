@@ -34,7 +34,7 @@ access_secret = os.environ.get('TWITTER_ACCESS_SECRET')
 
 def main():
     dummy, start_temp = sensor.read_temp()
-    last_temp = temp_f = start_temp  #initial value
+    last_step = temp_f = start_temp  #initial value
 
     while True:
         temp_c, temp_f = sensor.read_temp()
@@ -42,15 +42,12 @@ def main():
         time.sleep(1)
 
         if temp_f - last_temp > STEP_VALUE:
+            last_step = temp_f
             tweet_temp(temp_f)
 
         if temp_f > TEMP_THRESHOLD:
             text_temp(TEMP_THRESHOLD)
             exit(1)
-
-        last_temp = temp_f # keep the last value
-
-
 
 
 def text_temp(temperature):
