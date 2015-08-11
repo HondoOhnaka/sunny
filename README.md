@@ -40,6 +40,6 @@ Twitter monitor account [@Solar_purifier][4]
 
 
 [1]: http://solarcooking.org/pasteurization/solarwat.htm "A SUMMARY OF WATER PASTEURIZATION TECHNIQUES"
-[2]: http://solarcooking.wikia.com/wiki/Heaven's_Flame "Heaven's Flame"
+[2]: http://www.backwoodshome.com/articles/radabaugh30.html "Heaven's Flame"
 [3]: http://www.raspberrypi-spy.co.uk/2013/03/raspberry-pi-1-wire-digital-thermometer-sensor/ "Raspberry Pi 1- Wire Digital Thermometer Sensor (DS18B20)"
 [4]: http://twitter.com/solar_purifier
