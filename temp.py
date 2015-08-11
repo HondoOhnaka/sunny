@@ -42,7 +42,7 @@ def main():
         time.sleep(1)
 
         if temp_f - last_temp > STEP_VALUE:
-            tweet_temp(temperature)
+            tweet_temp(temp_f)
 
         if temp_f > TEMP_THRESHOLD:
             text_temp(TEMP_THRESHOLD)
