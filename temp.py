@@ -1,13 +1,23 @@
 import os
+import sys
+import time
 from os.path import join, dirname
 
-from twilio.rest import TwilioRestClient 
+from twilio.rest import TwilioRestClient
 from dotenv import load_dotenv
 
-from twython import Twython  
+from twython import Twython
+
+if sys.platform == 'darwin':
+    import fake_sensor as sensor
+else:
+    import sensor
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
+
+TEMP_THRESHOLD = 149.0 # farenheit
+STEP_VALUE = 5.0
 
 #Twillio Information
 auth = os.environ.get('TWILIO_SID')
@@ -19,16 +29,34 @@ from_phone = os.environ.get('FROM_PHONE')
 consumer_key = os.environ.get('TWITTER_CONSUMER_KEY')
 consumer_secret = os.environ.get('TWITTER_CONSUMER_SECRET')
 access_key = os.environ.get('TWITTER_ACCESS_KEY')
-access_secret = os.environ.get('TWITTER_ACCESS_SECRET') 
+access_secret = os.environ.get('TWITTER_ACCESS_SECRET')
+
+def main():
+    start_temp = sensor.read_temp()
+
+    while True:
+        print(sensor.read_temp())
+        time.sleep(1)
+
+        if temp == TEMP_THRESHOLD:
+            text_temp(TEMP_THRESHOLD)
+            exit(1)
+
+
 
 
 def text_temp(temperature):
-    msg = 'Solar oven has reached '+temperature+' F'
+    msg = 'Solar oven has reached {} F'.format(temperature)
 
-    client = TwilioRestClient(auth,token)  
+    client = TwilioRestClient(auth,token)
     msg = client.messages.create(to=to_phone, from_=from_phone, body=msg)
-    
-    
+
+
 def tweet_temp(temperature):
-    api = Twython(consumer_key,consumer_secret, access_key, access_secret)     
-    api.update_status(status="Current solar oven temperature = "+temperature+" F")  
+    status_msg = "Current solar oven temperature = {} F".format(temperature)
+    api = Twython(consumer_key, consumer_secret, access_key, access_secret)
+    api.update_status(status=status_msg)
+
+
+if __name__=="__main__":
+    main()
