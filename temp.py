@@ -33,11 +33,11 @@ access_key = os.environ.get('TWITTER_ACCESS_KEY')
 access_secret = os.environ.get('TWITTER_ACCESS_SECRET')
 
 def main():
-    start_temp = sensor.read_temp()
+    dummy, start_temp = sensor.read_temp()
     last_temp = temp_f = start_temp  #initial value
 
     while True:
-        temp_f, temp_c = sensor.read_temp()
+        temp_c, temp_f = sensor.read_temp()
         print(temp_f)
         time.sleep(1)
 
