@@ -5,6 +5,8 @@ import time
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 
+time.sleep(5) # needs a sec to create device
+
 base_dir = '/sys/bus/w1/devices/'
 device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'

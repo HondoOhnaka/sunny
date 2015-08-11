@@ -55,12 +55,14 @@ def main():
 
 def text_temp(temperature):
     msg = 'Solar oven has reached {}\xb0 f'.format(temperature)
+    print "tweeting"
 
     client = TwilioRestClient(auth,token)
     client.messages.create(to=to_phone, from_=from_phone, body=msg)
 
 
 def tweet_temp(temperature):
+    print "texting"
     status_msg = "Current solar oven temperature = {} \xb0 f".format(temperature)
     api = Twython(consumer_key, consumer_secret, access_key, access_secret)
     api.update_status(status=status_msg)
