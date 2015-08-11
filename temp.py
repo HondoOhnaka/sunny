@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import sys
 import time
@@ -33,27 +34,34 @@ access_secret = os.environ.get('TWITTER_ACCESS_SECRET')
 
 def main():
     start_temp = sensor.read_temp()
+    temp_f = start_temp  #initial value
 
     while True:
-        print(sensor.read_temp())
+        temp_f, temp_c = sensor.read_temp()
+        print(temp_f)
         time.sleep(1)
 
-        if temp == TEMP_THRESHOLD:
+        if temp_f - last_temp > STEP_VALUE:
+            tweet_temp(temperature)
+
+        if temp_f > TEMP_THRESHOLD:
             text_temp(TEMP_THRESHOLD)
             exit(1)
+
+        last_temp = temp_f # keep the last value
 
 
 
 
 def text_temp(temperature):
-    msg = 'Solar oven has reached {} F'.format(temperature)
+    msg = 'Solar oven has reached {}\xb0 f'.format(temperature)
 
     client = TwilioRestClient(auth,token)
-    msg = client.messages.create(to=to_phone, from_=from_phone, body=msg)
+    client.messages.create(to=to_phone, from_=from_phone, body=msg)
 
 
 def tweet_temp(temperature):
-    status_msg = "Current solar oven temperature = {} F".format(temperature)
+    status_msg = "Current solar oven temperature = {} \xb0 f".format(temperature)
     api = Twython(consumer_key, consumer_secret, access_key, access_secret)
     api.update_status(status=status_msg)
 
